@@ -1,0 +1,6 @@
+mysql:
+  host: mysql-chandu.alwaysdata.net
+  port: 3306
+  user: chandu_bigdataflaskk
+  password: Rowan#783
+  database: chandu_bigdataflask
