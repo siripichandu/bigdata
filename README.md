@@ -1,4 +1,4 @@
-# 🐾 Austin Animal Shelter — Big Data Analytics
+# Austin Animal Shelter — Big Data Analytics
 ### Big Data: Tools and Techniques | Spring 2026
 ### MongoDB + Medallion Architecture (Bronze → Silver → Gold)
 
@@ -8,15 +8,14 @@
 
 ```
 austin_animal_shelter/
-├── notebooks/
-│   └── austin_shelter_bigdata.ipynb   ← MAIN FILE — run this
+├── austin_shelter_bigdata.ipynb   ← MAIN FILE — run this
 ├── scripts/
 │   ├── mongo_setup.py                 ← Test MongoDB connection
 │   ├── data_cleaning.py               ← Silver layer cleaning
 │   ├── aggregations.py                ← Gold layer pipelines
 │   ├── ml_model.py                    ← ML training & evaluation
 │   └── visualizations.py             ← All 9 charts
-├── data/                              ← Put your 3 CSV files here
+├── data/                              ← Put  3 CSV files here
 ├── charts/                            ← Generated charts saved here
 ├── models/                            ← Saved ML model (.pkl)
 ├── .env.example                       ← MongoDB URI template
