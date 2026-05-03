@@ -219,29 +219,8 @@ git push -u origin main
 ```
 
 > **Note:** `.gitignore` already excludes `.env`, CSV files, and `.pkl` model files.
-> Add a note in your README explaining the data source:
+
 > [Kaggle Dataset](https://www.kaggle.com/datasets/jackdaoud/animal-shelter-analytics)
 
----
 
-## 🎥 Video Recording Tips (5–6 min)
 
-Suggested structure:
-1. **0:00–0:30** — Intro: Why MongoDB? Medallion architecture overview
-2. **0:30–1:30** — Show CSV files → run Bronze ingestion → show MongoDB Atlas collections
-3. **1:30–2:30** — Silver layer: show cleaning code, before/after row counts
-4. **2:30–3:30** — Gold layer: run aggregation pipelines, show results in Atlas UI
-5. **3:30–4:30** — Walk through charts (trends, heatmap, seasonality)
-6. **4:30–5:30** — ML model: explain features, show ROC curve + confusion matrix
-7. **5:30–6:00** — Summary + GitHub link
-
-Use **QuickTime** (Mac) or **OBS** for screen recording. Make sure text is readable at 1080p.
-
----
-
-## 💡 Why MongoDB?
-
-1. **Schema flexibility** — Animal records have inconsistent fields (intake condition, subtype) that would require NULL columns in SQL. MongoDB documents handle this naturally.
-2. **Aggregation Pipeline** — MongoDB's `$group`, `$bucket`, `$lookup` operators replace complex SQL JOINs and GROUP BY statements with readable, chainable stages.
-3. **Scalability** — The dataset (~130K+ records combined) will scale to millions with Atlas's horizontal sharding.
-4. **JSON-native** — Animal shelter data maps directly to JSON documents without schema migration overhead.
