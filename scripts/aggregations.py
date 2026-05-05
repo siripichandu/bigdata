@@ -9,8 +9,7 @@ from pymongo import MongoClient
 import os, json
 from datetime import datetime
 
-MONGO_URI = os.getenv("MONGO_URI", "mongodb+srv://<USERNAME>:<PASSWORD>@<CLUSTER>.mongodb.net/")
-
+MONGO_URI = "mongodb+srv://siripi:Chandu143@bigdata.rtntt9l.mongodb.net/austin_shelter?retryWrites=true&w=majority&appName=bigdata"
 
 def get_db():
     client = MongoClient(MONGO_URI)
@@ -178,12 +177,12 @@ def build_gold_layer(db):
     print("🥇 Building Gold Layer aggregations...\n")
 
     pipelines = {
-        "intake_trends":      agg_intake_trends,
-        "outcome_dist":       agg_outcome_dist,
-        "intake_condition":   agg_intake_by_condition,
-        "hourly_pattern":     agg_hourly_pattern,
+        "intake_trends":       agg_intake_trends,
+        "outcome_dist":        agg_outcome_dist,
+        "intake_condition":    agg_intake_by_condition,
+        "hourly_pattern":      agg_hourly_pattern,
         "monthly_seasonality": agg_monthly_seasonality,
-        "adoption_by_age":    agg_adoption_rate_by_age,
+        "adoption_by_age":     agg_adoption_rate_by_age,
     }
 
     gold_col = db["gold_aggregates"]

@@ -1,22 +1,21 @@
-# 🐾 Austin Animal Shelter — Big Data Analytics
+# Austin Animal Shelter — Big Data Analytics
 ### Big Data: Tools and Techniques | Spring 2026
 ### MongoDB + Medallion Architecture (Bronze → Silver → Gold)
 
 ---
 
-## 📁 Project Structure
+##  Project Structure
 
 ```
 austin_animal_shelter/
-├── notebooks/
-│   └── austin_shelter_bigdata.ipynb   ← MAIN FILE — run this
+├── austin_shelter_bigdata.ipynb   ← MAIN FILE — run this
 ├── scripts/
 │   ├── mongo_setup.py                 ← Test MongoDB connection
 │   ├── data_cleaning.py               ← Silver layer cleaning
 │   ├── aggregations.py                ← Gold layer pipelines
 │   ├── ml_model.py                    ← ML training & evaluation
 │   └── visualizations.py             ← All 9 charts
-├── data/                              ← Put your 3 CSV files here
+├── data/                              ← Put  3 CSV files here
 ├── charts/                            ← Generated charts saved here
 ├── models/                            ← Saved ML model (.pkl)
 ├── .env.example                       ← MongoDB URI template
@@ -27,7 +26,7 @@ austin_animal_shelter/
 
 ---
 
-## ⚙️  STEP 1 — Setup Python Environment (VSCode)
+##   STEP 1 — Setup Python Environment (VSCode)
 
 Open VSCode, open the **Terminal** (Ctrl+` or View → Terminal), then run:
 
@@ -51,7 +50,7 @@ In VSCode:
 
 ---
 
-## 🍃 STEP 2 — MongoDB Atlas Setup (Free Tier)
+##  STEP 2 — MongoDB Atlas Setup (Free Tier)
 
 ### 2a. Create Atlas Account
 1. Go to **https://cloud.mongodb.com**
@@ -98,7 +97,7 @@ You should see: `✅ Successfully connected to MongoDB Atlas!`
 
 ---
 
-## 📂 STEP 3 — Add Data Files
+##  STEP 3 — Add Data Files
 
 Copy your CSV files into the `data/` folder:
 ```
@@ -121,7 +120,7 @@ cp "/Users/siripi/Downloads/D/SEM 3/BIG DATA/Final Project/archive/"*.csv \
 
 ---
 
-## 🚀 STEP 4 — Run the Notebook (VSCode)
+## STEP 4 — Run the Notebook (VSCode)
 
 1. In VSCode, open `notebooks/austin_shelter_bigdata.ipynb`
 2. Top-right → click **"Select Kernel"** → choose your `venv`
@@ -139,7 +138,7 @@ cp "/Users/siripi/Downloads/D/SEM 3/BIG DATA/Final Project/archive/"*.csv \
 
 ---
 
-## 🏃 STEP 5 — Run Scripts Individually (Optional)
+##  STEP 5 — Run Scripts Individually (Optional)
 
 You can also run each script standalone:
 
@@ -161,19 +160,19 @@ python scripts/visualizations.py data/
 
 ---
 
-## 📊 What the Notebook Does
+##  What the Notebook Does
 
 | Layer | What Happens |
 |-------|-------------|
-| 🥉 **Bronze** | Raw CSVs ingested as-is into MongoDB (3 collections) |
-| 🥈 **Silver** | Deduplication, datetime parsing, feature engineering, null handling |
-| 🥇 **Gold** | 6 MongoDB Aggregation Pipelines → stored as reports |
-| 📊 **Viz** | 9 charts: trends, heatmaps, seasonality, Sankey, geo map |
-| 🤖 **ML** | Random Forest + Gradient Boosting + Logistic Regression, ROC-AUC, feature importance |
+|  **Bronze** | Raw CSVs ingested as-is into MongoDB (3 collections) |
+|  **Silver** | Deduplication, datetime parsing, feature engineering, null handling |
+|  **Gold** | 6 MongoDB Aggregation Pipelines → stored as reports |
+|  **Viz** | 9 charts: trends, heatmaps, seasonality, Sankey, geo map |
+|  **ML** | Random Forest + Gradient Boosting + Logistic Regression, ROC-AUC, feature importance |
 
 ---
 
-## 🤖 ML Model Details
+##  ML Model Details
 
 **Target:** Predict whether an animal gets a **positive outcome** (Adopted / Returned to Owner)
 
@@ -191,7 +190,7 @@ python scripts/visualizations.py data/
 
 ---
 
-## 📦 MongoDB Collections
+##  MongoDB Collections
 
 | Collection | Layer | Description |
 |-----------|-------|-------------|
@@ -204,7 +203,7 @@ python scripts/visualizations.py data/
 
 ---
 
-## 🐙 STEP 6 — Push to GitHub
+##  STEP 6 — Push to GitHub
 
 ```bash
 # Initialize git in your project folder
@@ -220,29 +219,8 @@ git push -u origin main
 ```
 
 > **Note:** `.gitignore` already excludes `.env`, CSV files, and `.pkl` model files.
-> Add a note in your README explaining the data source:
+
 > [Kaggle Dataset](https://www.kaggle.com/datasets/jackdaoud/animal-shelter-analytics)
 
----
 
-## 🎥 Video Recording Tips (5–6 min)
 
-Suggested structure:
-1. **0:00–0:30** — Intro: Why MongoDB? Medallion architecture overview
-2. **0:30–1:30** — Show CSV files → run Bronze ingestion → show MongoDB Atlas collections
-3. **1:30–2:30** — Silver layer: show cleaning code, before/after row counts
-4. **2:30–3:30** — Gold layer: run aggregation pipelines, show results in Atlas UI
-5. **3:30–4:30** — Walk through charts (trends, heatmap, seasonality)
-6. **4:30–5:30** — ML model: explain features, show ROC curve + confusion matrix
-7. **5:30–6:00** — Summary + GitHub link
-
-Use **QuickTime** (Mac) or **OBS** for screen recording. Make sure text is readable at 1080p.
-
----
-
-## 💡 Why MongoDB?
-
-1. **Schema flexibility** — Animal records have inconsistent fields (intake condition, subtype) that would require NULL columns in SQL. MongoDB documents handle this naturally.
-2. **Aggregation Pipeline** — MongoDB's `$group`, `$bucket`, `$lookup` operators replace complex SQL JOINs and GROUP BY statements with readable, chainable stages.
-3. **Scalability** — The dataset (~130K+ records combined) will scale to millions with Atlas's horizontal sharding.
-4. **JSON-native** — Animal shelter data maps directly to JSON documents without schema migration overhead.

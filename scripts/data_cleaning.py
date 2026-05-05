@@ -32,8 +32,10 @@ def report_quality(df, name):
     print(f"  Rows      : {len(df):,}")
     print(f"  Columns   : {df.shape[1]}")
     print(f"  Duplicates: {df.duplicated().sum():,}")
+
     missing = df.isnull().sum()
     missing = missing[missing > 0]
+
     if len(missing):
         print(f"\n  Missing values:")
         for col, cnt in missing.items():
@@ -49,48 +51,64 @@ def clean_intakes(df: pd.DataFrame) -> pd.DataFrame:
     df = df.copy()
     before = len(df)
 
-    # 1. Remove duplicates
     df.drop_duplicates(inplace=True)
     print(f"  Duplicates removed : {before - len(df):,}")
 
-    # 2. Parse dates
     df["DateTime"] = pd.to_datetime(df["DateTime"], errors="coerce")
     df.dropna(subset=["DateTime"], inplace=True)
-    df["Year"]      = df["DateTime"].dt.year
-    df["Month"]     = df["DateTime"].dt.month
-    df["Hour"]      = df["DateTime"].dt.hour
-    df["DayOfWeek"] = df["DateTime"].dt.day_name()
-    df["Quarter"]   = df["DateTime"].dt.quarter
 
-    # 3. Standardize text
-    text_cols = ["Intake Type", "Intake Condition", "Animal Type",
-                 "Sex upon Intake", "Breed", "Color"]
+    df["Year"] = df["DateTime"].dt.year
+    df["Month"] = df["DateTime"].dt.month
+    df["Hour"] = df["DateTime"].dt.hour
+    df["DayOfWeek"] = df["DateTime"].dt.day_name()
+    df["Quarter"] = df["DateTime"].dt.quarter
+
+    text_cols = [
+        "Intake Type",
+        "Intake Condition",
+        "Animal Type",
+        "Sex upon Intake",
+        "Breed",
+        "Color"
+    ]
+
     for col in text_cols:
         if col in df.columns:
             df[col] = df[col].str.strip().str.title().fillna("Unknown")
 
-    # 4. Names
-    df["Name"] = (df["Name"].fillna("Unknown")
-                             .str.strip()
-                             .replace("", "Unknown")
-                             .str.lstrip("*"))
+    df["Name"] = (
+        df["Name"]
+        .fillna("Unknown")
+        .str.strip()
+        .replace("", "Unknown")
+        .str.lstrip("*")
+    )
 
-    # 5. Age engineering
     df["Age_Months"] = df["Age upon Intake"].apply(age_to_months)
-    df["Age_Group"]  = pd.cut(
+
+    df["Age_Group"] = pd.cut(
         df["Age_Months"],
         bins=[0, 1, 6, 12, 36, 84, 9999],
         labels=["Neonatal", "Juvenile", "Young", "Adult", "Senior", "Geriatric"],
         right=False
     )
 
-    # 6. Sex / neuter breakdown
     df["Neutered"] = df["Sex upon Intake"].str.contains(
-        "Neutered|Spayed", case=False, na=False)
-    df["Sex"] = df["Sex upon Intake"].str.extract(r"(Male|Female)", expand=False)
+        "Neutered|Spayed",
+        case=False,
+        na=False
+    )
 
-    # 7. Mixed breed flag
-    df["Mixed_Breed"] = df["Breed"].str.contains("Mix|/", case=False, na=False)
+    df["Sex"] = df["Sex upon Intake"].str.extract(
+        r"(Male|Female)",
+        expand=False
+    )
+
+    df["Mixed_Breed"] = df["Breed"].str.contains(
+        "Mix|/",
+        case=False,
+        na=False
+    )
 
     print(f"  Final clean rows   : {len(df):,}")
     return df
@@ -105,45 +123,65 @@ def clean_outcomes(df: pd.DataFrame) -> pd.DataFrame:
     df.drop_duplicates(inplace=True)
     print(f"  Duplicates removed : {before - len(df):,}")
 
-    df["DateTime"]      = pd.to_datetime(df["DateTime"], errors="coerce")
+    df["DateTime"] = pd.to_datetime(df["DateTime"], errors="coerce")
     df["Date of Birth"] = pd.to_datetime(df["Date of Birth"], errors="coerce")
+
     df.dropna(subset=["DateTime", "Outcome Type"], inplace=True)
 
-    df["Year"]    = df["DateTime"].dt.year
-    df["Month"]   = df["DateTime"].dt.month
-    df["Hour"]    = df["DateTime"].dt.hour
+    df["Year"] = df["DateTime"].dt.year
+    df["Month"] = df["DateTime"].dt.month
+    df["Hour"] = df["DateTime"].dt.hour
     df["Quarter"] = df["DateTime"].dt.quarter
 
-    text_cols = ["Outcome Type", "Outcome Subtype", "Animal Type",
-                 "Sex upon Outcome", "Breed", "Color"]
+    text_cols = [
+        "Outcome Type",
+        "Outcome Subtype",
+        "Animal Type",
+        "Sex upon Outcome",
+        "Breed",
+        "Color"
+    ]
+
     for col in text_cols:
         if col in df.columns:
             df[col] = df[col].str.strip().str.title().fillna("Unknown")
 
-    df["Name"] = (df["Name"].fillna("Unknown")
-                             .str.strip()
-                             .replace("", "Unknown")
-                             .str.lstrip("*"))
+    df["Name"] = (
+        df["Name"]
+        .fillna("Unknown")
+        .str.strip()
+        .replace("", "Unknown")
+        .str.lstrip("*")
+    )
 
     df["Age_Months"] = df["Age upon Outcome"].apply(age_to_months)
 
-    # Target variable: positive outcome
     positive_outcomes = {"Adoption", "Return To Owner", "Rto-Adopt"}
     df["Positive_Outcome"] = df["Outcome Type"].isin(positive_outcomes).astype(int)
 
-    # Outcome category grouping
     def group_outcome(o):
-        if o in {"Adoption", "Rto-Adopt"}:         return "Adopted"
-        if o == "Return To Owner":                  return "Returned"
-        if o == "Transfer":                         return "Transferred"
-        if o == "Euthanasia":                       return "Euthanized"
+        if o in {"Adoption", "Rto-Adopt"}:
+            return "Adopted"
+        if o == "Return To Owner":
+            return "Returned"
+        if o == "Transfer":
+            return "Transferred"
+        if o == "Euthanasia":
+            return "Euthanized"
         return "Other"
 
     df["Outcome_Group"] = df["Outcome Type"].apply(group_outcome)
 
     df["Neutered"] = df["Sex upon Outcome"].str.contains(
-        "Neutered|Spayed", case=False, na=False)
-    df["Sex"] = df["Sex upon Outcome"].str.extract(r"(Male|Female)", expand=False)
+        "Neutered|Spayed",
+        case=False,
+        na=False
+    )
+
+    df["Sex"] = df["Sex upon Outcome"].str.extract(
+        r"(Male|Female)",
+        expand=False
+    )
 
     print(f"  Final clean rows   : {len(df):,}")
     return df
@@ -153,11 +191,20 @@ def clean_outcomes(df: pd.DataFrame) -> pd.DataFrame:
 
 if __name__ == "__main__":
     import sys
-    DATA_PATH = sys.argv[1] if len(sys.argv) > 1 else "../data/"
+    import os
+
+    BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    DATA_PATH = sys.argv[1] if len(sys.argv) > 1 else os.path.join(BASE_DIR, "data")
 
     print("Loading raw CSVs...")
-    df_i = pd.read_csv(DATA_PATH + "Austin_Animal_Center_Intakes.csv")
-    df_o = pd.read_csv(DATA_PATH + "Austin_Animal_Center_Outcomes.csv")
+
+    df_i = pd.read_csv(
+        os.path.join(DATA_PATH, "Austin_Animal_Center_Intakes.csv")
+    )
+
+    df_o = pd.read_csv(
+        os.path.join(DATA_PATH, "Austin_Animal_Center_Outcomes.csv")
+    )
 
     report_quality(df_i, "intakes")
     report_quality(df_o, "outcomes")
@@ -168,7 +215,14 @@ if __name__ == "__main__":
     print("\n🧹 Cleaning Outcomes...")
     df_o_clean = clean_outcomes(df_o)
 
-    # Save silver CSVs (optional backup)
-    df_i_clean.to_csv(DATA_PATH + "silver_intakes.csv", index=False)
-    df_o_clean.to_csv(DATA_PATH + "silver_outcomes.csv", index=False)
+    df_i_clean.to_csv(
+        os.path.join(DATA_PATH, "silver_intakes.csv"),
+        index=False
+    )
+
+    df_o_clean.to_csv(
+        os.path.join(DATA_PATH, "silver_outcomes.csv"),
+        index=False
+    )
+
     print("\n✅ Silver CSVs saved to data/")
