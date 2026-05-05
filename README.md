@@ -4,7 +4,7 @@
 
 ---
 
-## 📁 Project Structure
+##  Project Structure
 
 ```
 austin_animal_shelter/
@@ -26,7 +26,7 @@ austin_animal_shelter/
 
 ---
 
-## ⚙️  STEP 1 — Setup Python Environment (VSCode)
+##   STEP 1 — Setup Python Environment (VSCode)
 
 Open VSCode, open the **Terminal** (Ctrl+` or View → Terminal), then run:
 
@@ -50,7 +50,7 @@ In VSCode:
 
 ---
 
-## 🍃 STEP 2 — MongoDB Atlas Setup (Free Tier)
+##  STEP 2 — MongoDB Atlas Setup (Free Tier)
 
 ### 2a. Create Atlas Account
 1. Go to **https://cloud.mongodb.com**
@@ -97,7 +97,7 @@ You should see: `✅ Successfully connected to MongoDB Atlas!`
 
 ---
 
-## 📂 STEP 3 — Add Data Files
+##  STEP 3 — Add Data Files
 
 Copy your CSV files into the `data/` folder:
 ```
@@ -120,7 +120,7 @@ cp "/Users/siripi/Downloads/D/SEM 3/BIG DATA/Final Project/archive/"*.csv \
 
 ---
 
-## 🚀 STEP 4 — Run the Notebook (VSCode)
+## STEP 4 — Run the Notebook (VSCode)
 
 1. In VSCode, open `notebooks/austin_shelter_bigdata.ipynb`
 2. Top-right → click **"Select Kernel"** → choose your `venv`
@@ -138,7 +138,7 @@ cp "/Users/siripi/Downloads/D/SEM 3/BIG DATA/Final Project/archive/"*.csv \
 
 ---
 
-## 🏃 STEP 5 — Run Scripts Individually (Optional)
+##  STEP 5 — Run Scripts Individually (Optional)
 
 You can also run each script standalone:
 
@@ -160,19 +160,19 @@ python scripts/visualizations.py data/
 
 ---
 
-## 📊 What the Notebook Does
+##  What the Notebook Does
 
 | Layer | What Happens |
 |-------|-------------|
-| 🥉 **Bronze** | Raw CSVs ingested as-is into MongoDB (3 collections) |
-| 🥈 **Silver** | Deduplication, datetime parsing, feature engineering, null handling |
-| 🥇 **Gold** | 6 MongoDB Aggregation Pipelines → stored as reports |
-| 📊 **Viz** | 9 charts: trends, heatmaps, seasonality, Sankey, geo map |
-| 🤖 **ML** | Random Forest + Gradient Boosting + Logistic Regression, ROC-AUC, feature importance |
+|  **Bronze** | Raw CSVs ingested as-is into MongoDB (3 collections) |
+|  **Silver** | Deduplication, datetime parsing, feature engineering, null handling |
+|  **Gold** | 6 MongoDB Aggregation Pipelines → stored as reports |
+|  **Viz** | 9 charts: trends, heatmaps, seasonality, Sankey, geo map |
+|  **ML** | Random Forest + Gradient Boosting + Logistic Regression, ROC-AUC, feature importance |
 
 ---
 
-## 🤖 ML Model Details
+##  ML Model Details
 
 **Target:** Predict whether an animal gets a **positive outcome** (Adopted / Returned to Owner)
 
@@ -190,7 +190,7 @@ python scripts/visualizations.py data/
 
 ---
 
-## 📦 MongoDB Collections
+##  MongoDB Collections
 
 | Collection | Layer | Description |
 |-----------|-------|-------------|
@@ -203,7 +203,7 @@ python scripts/visualizations.py data/
 
 ---
 
-## 🐙 STEP 6 — Push to GitHub
+##  STEP 6 — Push to GitHub
 
 ```bash
 # Initialize git in your project folder
